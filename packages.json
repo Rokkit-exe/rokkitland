@@ -1,0 +1,307 @@
+[
+  {
+    "title": "Desktop Environment",
+    "packages": [
+      {
+        "name": "hyprland",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "hyprlock",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "hyprpicker",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "hyprpaper",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "hypridle",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "hyprshot",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "swaync",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "waybar",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "wlogout",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "wofi",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "firefox",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "thunar",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "kitty",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "zsh",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "gwenview",
+        "selected": true,
+        "description": "No description provided."
+      }
+    ]
+  },
+  {
+    "title": "Styling",
+    "packages": [
+      {
+        "name": "adw-gtk-theme",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "papirus-icon-theme",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "catppuccin-gtk-theme-mocha",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "catppuccin-sddm-theme-mocha",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "ttf-font-awesome",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "ttf-ubuntu-mono-nerd",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "ttf-ubuntu-nerd",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "simple-sddm-theme-2-git",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "simple-sddm-theme-git",
+        "selected": true,
+        "description": "No description provided."
+      }
+    ]
+  },
+  {
+    "title": "System Utilities",
+    "packages": [
+      {
+        "name": "wget",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "curl",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "neofetch",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "nvtop",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "htop",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "radeontop",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "nwg-look",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "man-db",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "man-pages",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "pamixer",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "pavucontrol",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "blueman",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "bluez",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "bluez-utils",
+        "selected": true,
+        "description": "No description provided."
+      }
+    ]
+  },
+  {
+    "title": "Development",
+    "packages": [
+      {
+        "name": "git",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "neovim",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "docker",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "mariadb",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "go",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "rust",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "nodejs",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "postman-git",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "beekeeper-studio-bin",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "bun-bin",
+        "selected": true,
+        "description": "No description provided."
+      }
+    ]
+  },
+  {
+    "title": "Media",
+    "packages": [
+      {
+        "name": "discord",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "qbittorrent",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "thunderbird",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "steam",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "obs-studio",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "obsidian",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "vlc",
+        "selected": true,
+        "description": "No description provided."
+      },
+      {
+        "name": "etcher-bin",
+        "selected": true,
+        "description": "No description provided."
+      }
+    ]
+  }
+]
