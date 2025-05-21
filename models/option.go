@@ -6,23 +6,23 @@ import (
 	"strings"
 )
 
-type Package struct {
+type Option struct {
 	Name        string `json:"name"`
 	Selected    bool   `json:"selected"`
 	Description string `json:"description"`
 }
 
-func (p Package) String() string {
-	return fmt.Sprintf("%s | %s", p.Name, p.Description)
+func (o Option) String() string {
+	return fmt.Sprintf("%s | %s", o.Name, o.Description)
 }
 
-func (p *Package) GetDescription() {
-	cmd := exec.Command("pacman", "-Qi", p.Name, "|", "grep", "Description")
+func (o *Option) GetDescription() {
+	cmd := exec.Command("pacman", "-Qi", o.Name, "|", "grep", "Description")
 	output, err := cmd.Output()
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
 	}
 	description := strings.TrimPrefix(string(output), "Description     : ")
-	p.Description = description
+	o.Description = description
 }

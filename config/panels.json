@@ -2,31 +2,23 @@
     {
       "id": 0,
       "title": "Navigation",
-      "format": "text",
+      "format": "nav",
       "content": [
         "Press ↑ ↓ to navigate between sections and options",
         "Press ␣ to toggle an option",
         "Press ↵ to select a section",
         "Press ⇥ to switch between panels"
       ],
-      "pos": {
-        "x": 1,
-        "y": 1
-      },
       "dimensions": {
         "width": 91,
-        "height": 5
+        "height": 6
       }
     },
     {
       "id": 1,
       "title": "Sections",
-      "format": "select",
+      "format": "section",
       "content": ["sections"],
-      "pos": {
-        "x": 1,
-        "y": 6
-      },
       "dimensions": {
         "width": 30,
         "height": 20
@@ -35,12 +27,8 @@
     {
       "id": 2,
       "title": "Options",
-      "format": "checkbox",
+      "format": "option",
       "content": ["packages"],
-      "pos": {
-        "x": 31,
-        "y": 6
-      },
       "dimensions": {
         "width": 60,
         "height": 20
@@ -49,20 +37,26 @@
     {
       "id": 3,
       "title": "Actions",
-      "format": "select",
+      "format": "action",
       "content": [
         "Toggle all selected packages",
         "Install selected packages",
         "Uninstall selected packages",
         "Upgrade all packages"
       ],
-      "pos": {
-        "x": 1,
-        "y": 27
-      },
       "dimensions": {
         "width": 91,
-        "height": 5
+        "height": 6
+      }
+    },
+    {
+      "id": 4,
+      "title": "Log",
+      "format": "log",
+      "content": ["log"],
+      "dimensions": {
+        "width": 91,
+        "height": 6
       }
     }
   ]

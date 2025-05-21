@@ -1,6 +1,6 @@
 package models
 
 type Section struct {
-	Title    string    `json:"title"`
-	Packages []Package `json:"packages"`
+	Title   string   `json:"title"`
+	Options []Option `json:"packages"`
 }

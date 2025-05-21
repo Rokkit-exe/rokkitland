@@ -13,40 +13,37 @@ func main() {
 	fmt.Println("Welcome to Rokkitland! Time to create the best Arch Linux experience.")
 	time.Sleep(2 * time.Second)
 	mainMenu := models.Menu{
-		Title:           "Rokkitland Installer",
-		SelectedSection: 0,
-		LeftCursor:      0,
-		RightCursor:     0,
-		SelectedPanel:   0,
+		Title: "Rokkitland Installer",
+		State: models.State{
+			SelectedPage:    0,
+			SelectedSection: 0,
+			SelectedPanel:   1,
+			SectionCursor:   0,
+			OptionCursor:    0,
+			ActionCursor:    0,
+			Cursor:          models.Coord{0, 0},
+		},
 	}
 
-	mainMenu.LoadConfig()
-	mainMenu.LoadSections()
+	mainMenu.State.LoadPages()
+	mainMenu.State.LoadSections()
 
-	if mainMenu.Panels == nil {
-		fmt.Println("Error: No panels found.")
+	if mainMenu.State.Pages == nil {
+		fmt.Println("Error: No pages found.")
 		return
 	}
 
-	if mainMenu.Sections == nil {
+	if mainMenu.State.Sections == nil {
 		fmt.Println("Error: No sections found.")
 		return
 	}
 
-	for _, panel := range mainMenu.Panels {
-		fmt.Println(panel.Id)
-		fmt.Println(panel.Title)
-		fmt.Println(panel.Content)
-		fmt.Println(panel.Pos)
-		fmt.Println(panel.Dimensions)
-	}
-
 	time.Sleep(5 * time.Second)
-	mainMenu.Clear()
+	mainMenu.State.Clear()
 
 	err := mainMenu.DrawMenu()
 	if err != nil {
-		mainMenu.Clear()
+		mainMenu.State.Clear()
 		fmt.Println("Error:", err)
 		return
 	}
