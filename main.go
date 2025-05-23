@@ -21,14 +21,14 @@ func main() {
 			SectionCursor:   0,
 			OptionCursor:    0,
 			ActionCursor:    0,
-			Cursor:          models.Coord{0, 0},
+			Cursor:          models.Coord{X: 0, Y: 0},
 		},
 	}
 
-	mainMenu.State.LoadPages()
+	mainMenu.LoadPages()
 	mainMenu.State.LoadSections()
 
-	if mainMenu.State.Pages == nil {
+	if mainMenu.Pages == nil {
 		fmt.Println("Error: No pages found.")
 		return
 	}
@@ -37,6 +37,20 @@ func main() {
 		fmt.Println("Error: No sections found.")
 		return
 	}
+	fmt.Println("Pages loaded successfully.")
+	pages := fmt.Sprintf("pages found: %d", len(mainMenu.Pages))
+	panels := fmt.Sprintf("panels found: %d", len(mainMenu.Pages[0].Panels))
+	panelWidth := fmt.Sprintf("panel width: %d", mainMenu.Pages[0].Panels[0].Width)
+	panelHeight := fmt.Sprintf("panel height: %d", mainMenu.Pages[0].Panels[0].Height)
+	panelTitle := fmt.Sprintf("panel title: %s", mainMenu.Pages[0].Panels[0].Title)
+	sections := fmt.Sprintf("sections found: %d", len(mainMenu.State.Sections))
+
+	fmt.Println(pages)
+	fmt.Println(panels)
+	fmt.Println(panelWidth)
+	fmt.Println(panelHeight)
+	fmt.Println(panelTitle)
+	fmt.Println(sections)
 
 	time.Sleep(5 * time.Second)
 	mainMenu.State.Clear()

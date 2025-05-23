@@ -13,30 +13,36 @@
           "Press ↵ to select a section",
           "Press ⇥ to switch between panels"
         ],
-        "dimensions": {
-          "width": 91,
-          "height": 6
-        }
+        "x": 1,
+        "y": 4,
+        "width": 91,
+        "height": 6,
+        "padding-x": 1,
+        "padding-y": 3
       },
       {
         "id": 1,
         "title": "Sections",
         "format": "section",
         "content": ["sections"],
-        "dimensions": {
-          "width": 30,
-          "height": 20
-        }
+        "x": 1,
+        "y": 10,
+        "width": 30,
+        "height": 20,
+        "padding-x": 1,
+        "padding-y": 3
       },
       {
         "id": 2,
         "title": "Options",
         "format": "option",
         "content": ["packages"],
-        "dimensions": {
-          "width": 60,
-          "height": 20
-        }
+        "x": 32,
+        "y": 10,
+        "width": 60,
+        "height": 20,
+        "padding-x": 1,
+        "padding-y": 3
       },
       {
         "id": 3,
@@ -48,26 +54,30 @@
           "Uninstall selected packages",
           "Upgrade all packages"
         ],
-        "dimensions": {
-          "width": 91,
-          "height": 6
-        }
+        "x": 0,
+        "y": 30,
+        "width": 91,
+        "height": 6,
+        "padding-x": 1,
+        "padding-y": 3
       },
       {
         "id": 4,
         "title": "Log",
         "format": "log",
         "content": ["log"],
-        "dimensions": {
-          "width": 91,
-          "height": 6
-        }
+        "x": 0,
+        "y": 36,
+        "width": 91,
+        "height": 6,
+        "padding-x": 1,
+        "padding-y": 3
       }
     ]
   },
   {
-    "id": 1,
-    "title": "Configurations",
+    "id": 0,
+    "title": "Packages",
     "panels": [
       {
         "id": 0,
@@ -79,30 +89,34 @@
           "Press ↵ to select a section",
           "Press ⇥ to switch between panels"
         ],
-        "dimensions": {
-          "width": 91,
-          "height": 6
-        }
+        "x": 0,
+        "y": 4,
+        "width": 91,
+        "height": 6
       },
       {
         "id": 1,
         "title": "Sections",
         "format": "section",
         "content": ["sections"],
-        "dimensions": {
-          "width": 30,
-          "height": 20
-        }
+        "x": 0,
+        "y": 11,
+        "width": 30,
+        "height": 20,
+        "padding-x": 1,
+        "padding-y": 3
       },
       {
         "id": 2,
         "title": "Options",
         "format": "option",
         "content": ["packages"],
-        "dimensions": {
-          "width": 60,
-          "height": 20
-        }
+        "x": 31,
+        "y": 11,
+        "width": 60,
+        "height": 20,
+        "padding-x": 1,
+        "padding-y": 3
       },
       {
         "id": 3,
@@ -114,20 +128,24 @@
           "Uninstall selected packages",
           "Upgrade all packages"
         ],
-        "dimensions": {
-          "width": 91,
-          "height": 6
-        }
+        "x": 0,
+        "y": 31,
+        "width": 91,
+        "height": 6,
+        "padding-x": 1,
+        "padding-y": 3
       },
       {
         "id": 4,
         "title": "Log",
         "format": "log",
         "content": ["log"],
-        "dimensions": {
-          "width": 91,
-          "height": 6
-        }
+        "x": 0,
+        "y": 38,
+        "width": 91,
+        "height": 6,
+        "padding-x": 1,
+        "padding-y": 3
       }
     ]
   }
