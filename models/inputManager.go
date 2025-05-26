@@ -1,57 +1,60 @@
 package models
 
 import (
-	"fmt"
 	"os"
 	"syscall"
-	"time"
 
 	"github.com/Rokkit-exe/rokkitland/tui"
 	"golang.org/x/term"
 )
 
 type InputManager struct {
-	State State
 }
 
-func (i *InputManager) RecordKeys() error {
+func (i *InputManager) RecordKeys(state *State) error {
 	buf := make([]byte, 3)
 	os.Stdin.Read(buf)
 
-	if buf[0] == tui.Enter { // Enter
-		i.State.SelectSection()
-	}
 	if buf[0] == tui.Escape1 && buf[1] == tui.Escape2 { // Arrow keys
 		switch buf[2] {
 		case tui.Up: // Up
-			i.State.MoveCursorUp()
+			state.MoveCursorUp()
 		case tui.Down: // Down
-			i.State.MoveCursorDown()
+			state.MoveCursorDown()
 		case tui.Left: // Left
-			i.State.MoveCursorLeft()
+			state.MoveCursorLeft()
 		case tui.Right: // Right
-			i.State.MoveCursorRight()
+			state.MoveCursorRight()
 		}
 	}
-	if buf[0] == tui.Space {
-		i.State.ToggleSelectOption()
+	switch buf[0] {
+	case tui.Enter:
+		state.SelectSection()
+	case tui.Space:
+		state.ToggleSelectOption()
+	case tui.Quit:
+		i.Quit(state)
+	case tui.Tab:
+		state.ToggleSelectedPanel()
+	case tui.One:
+		state.SelectPage(int(tui.One))
+	case tui.Two:
+		state.SelectPage(int(tui.Two))
+	case tui.Three:
+		state.SelectPage(int(tui.Three))
+	case tui.Four:
+		state.SelectPage(int(tui.Four))
+	case tui.Five:
+		state.SelectPage(int(tui.Five))
+	default:
 	}
 
-	if buf[0] == tui.Quit { // Escape1
-		i.Quit()
-	}
-	if buf[0] == tui.Tab { // Tab
-		i.State.ToggleSelectedPanel()
-	}
 	return nil
 }
 
-func (i *InputManager) Quit() {
-	i.State.MoveCursor(90, 0)
-	fmt.Println("--------------------------------------------------------")
-	fmt.Println("Exiting...")
-	time.Sleep(1 * time.Second)
-	i.State.Clear()
-	term.Restore(int(syscall.Stdin), i.State.OldState)
+func (i *InputManager) Quit(state *State) {
+	state.Log.Add("--------------------------------------------------------")
+	state.Log.Add("Exiting...")
+	term.Restore(int(syscall.Stdin), state.OldState)
 	os.Exit(0)
 }

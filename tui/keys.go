@@ -19,4 +19,9 @@ const (
 	Escape1   byte = 27
 	Escape2   byte = 91
 	Quit      byte = 'q'
+	One       byte = 1
+	Two       byte = 2
+	Three     byte = 3
+	Four      byte = 4
+	Five      byte = 5
 )

@@ -79,6 +79,10 @@ func (s *State) SelectSection() {
 	}
 }
 
+func (s *State) SelectPage(index int) {
+	s.SelectedPage = index - 1
+}
+
 func (s *State) MoveCursorUp() {
 	if s.SelectedPanel == 1 && s.SectionCursor > 0 {
 		s.SectionCursor--

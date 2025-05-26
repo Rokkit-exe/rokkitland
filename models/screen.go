@@ -6,36 +6,34 @@ import (
 	"os"
 )
 
-type Menu struct {
-	Title        string
+type Screen struct {
 	Pages        []Page
 	InputManager InputManager
-	Log          Log
 	State        State
 }
 
-func (m *Menu) DrawMenu() error {
+func (s *Screen) Draw() error {
 	for {
-		m.State.Clear()
-		m.State.MoveCursor(1, 1)
-		m.DrawPages()
-		m.Pages[m.State.SelectedPage].DrawPanels(&m.State)
-		err := m.InputManager.RecordKeys()
+		s.State.Clear()
+		s.State.MoveCursor(1, 1)
+		s.DrawPages()
+		s.Pages[s.State.SelectedPage].DrawPanels(&s.State)
+		err := s.InputManager.RecordKeys(&s.State)
 		if err != nil {
-			m.State.MoveCursor(60, 1)
-			fmt.Println("Error:", err)
+			s.State.MoveCursor(30, 1)
+			s.State.Log.Add("Error: " + err.Error())
 			return err
 		}
 	}
 }
 
-func (m *Menu) DrawPages() {
-	for _, page := range m.Pages {
-		page.DrawTab(&m.State, m.State.SelectedPage == page.Id)
+func (s *Screen) DrawPages() {
+	for _, page := range s.Pages {
+		page.DrawTab(&s.State, s.State.SelectedPage == page.Id)
 	}
 }
 
-func (m *Menu) LoadPages() {
+func (s *Screen) LoadPages() {
 	// Load the config file and parse it into the Packages variable
 	// This is a placeholder function, you need to implement the actual loading logic
 	fmt.Println("Loading config...")
@@ -52,5 +50,5 @@ func (m *Menu) LoadPages() {
 		fmt.Println("Error decoding config file:", err)
 		return
 	}
-	m.Pages = pages
+	s.Pages = pages
 }

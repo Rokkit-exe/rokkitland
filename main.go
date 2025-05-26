@@ -14,8 +14,7 @@ func main() {
 	fmt.Printf(art.LOGO)
 	fmt.Println("Welcome to Rokkitland! Time to create the best Arch Linux experience.")
 	time.Sleep(2 * time.Second)
-	mainMenu := models.Menu{
-		Title: "Rokkitland Installer",
+	screen := models.Screen{
 		State: models.State{
 			SelectedPage:    0,
 			SelectedSection: 0,
@@ -27,26 +26,26 @@ func main() {
 		},
 	}
 
-	mainMenu.LoadPages()
-	mainMenu.State.LoadSections()
+	screen.LoadPages()
+	screen.State.LoadSections()
 
-	if mainMenu.Pages == nil {
+	if screen.Pages == nil {
 		fmt.Println("Error: No pages found.")
 		return
 	}
 
-	if mainMenu.State.Sections == nil {
+	if screen.State.Sections == nil {
 		fmt.Println("Error: No sections found.")
 		return
 	}
 	fmt.Println("Pages loaded successfully.")
-	pages := fmt.Sprintf("pages found: %d", len(mainMenu.Pages))
-	pageTitle := fmt.Sprintf("page title: %s", mainMenu.Pages[0].Title)
-	panels := fmt.Sprintf("panels found: %d", len(mainMenu.Pages[0].Panels))
-	panelWidth := fmt.Sprintf("panel width: %d", mainMenu.Pages[0].Panels[0].Width)
-	panelHeight := fmt.Sprintf("panel height: %d", mainMenu.Pages[0].Panels[0].Height)
-	panelTitle := fmt.Sprintf("panel title: %s", mainMenu.Pages[0].Panels[0].Title)
-	sections := fmt.Sprintf("sections found: %d", len(mainMenu.State.Sections))
+	pages := fmt.Sprintf("pages found: %d", len(screen.Pages))
+	pageTitle := fmt.Sprintf("page title: %s", screen.Pages[0].Title)
+	panels := fmt.Sprintf("panels found: %d", len(screen.Pages[0].Panels))
+	panelWidth := fmt.Sprintf("panel width: %d", screen.Pages[0].Panels[0].Width)
+	panelHeight := fmt.Sprintf("panel height: %d", screen.Pages[0].Panels[0].Height)
+	panelTitle := fmt.Sprintf("panel title: %s", screen.Pages[0].Panels[0].Title)
+	sections := fmt.Sprintf("sections found: %d", len(screen.State.Sections))
 
 	fmt.Println(pages)
 	fmt.Println(pageTitle)
@@ -58,14 +57,14 @@ func main() {
 
 	time.Sleep(5 * time.Second)
 
-	err := mainMenu.State.SaveOldState()
+	err := screen.State.SaveOldState()
 	if err != nil {
-		mainMenu.Log.Add("Error saving old state: " + err.Error())
+		screen.State.Log.Add("Error saving old state: " + err.Error())
 	}
-	defer term.Restore(int(syscall.Stdin), mainMenu.State.OldState)
-	err = mainMenu.DrawMenu()
+	defer term.Restore(int(syscall.Stdin), screen.State.OldState)
+	err = screen.Draw()
 	if err != nil {
-		mainMenu.Log.Add("Error drawing menu: " + err.Error())
+		screen.State.Log.Add("Error drawing menu: " + err.Error())
 		fmt.Println("Error:", err)
 		return
 	}

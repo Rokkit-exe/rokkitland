@@ -58,10 +58,13 @@ func (p *Panel) DrawActionPanel(state *State) {
 func (p *Panel) DrawNavPanel(state *State) {
 	p.DrawBox(state, false)
 	state.MoveCursor(p.Y+p.PaddingY, p.X+p.PaddingX)
-	for i, msg := range state.Navigations {
-		state.MoveCursor(p.Y+p.PaddingY+i, p.X+p.PaddingX)
-		fmt.Print(msg)
-	}
+	fmt.Printf("Press ↑ ↓ to navigate between sections and options")
+	state.MoveCursor(p.Y+p.PaddingY+1, p.X+p.PaddingX)
+	fmt.Printf("Press ␣ to toggle an option")
+	state.MoveCursor(p.Y+p.PaddingY+2, p.X+p.PaddingX)
+	fmt.Printf("Press ↵ to select a section")
+	state.MoveCursor(p.Y+p.PaddingY+3, p.X+p.PaddingX)
+	fmt.Printf("Press ⇥ to switch between panels")
 }
 
 func (p *Panel) DrawOptionPanel(state *State) {
@@ -105,6 +108,25 @@ func (p *Panel) DrawSectionPanel(state *State) {
 	}
 }
 
+func (p *Panel) DrawLogPanel(state *State) {
+	p.DrawBox(state, false)
+	state.MoveCursor(p.Y+p.PaddingY, p.X+p.PaddingX)
+
+	n := 5
+	lenLog := len(state.Log)
+
+	if lenLog == 0 {
+		return
+	} else if lenLog > 0 && lenLog < p.Height-2 {
+		n = lenLog
+	}
+
+	for i, log := range state.Log.LastN(n) {
+		fmt.Printf("%s", log)
+		state.MoveCursor(p.Y+p.PaddingY+i, p.X+p.PaddingX)
+	}
+}
+
 func (p *Panel) Draw(state *State) {
 	switch p.Format {
 	case "nav":
@@ -115,6 +137,8 @@ func (p *Panel) Draw(state *State) {
 		p.DrawActionPanel(state)
 	case "section":
 		p.DrawSectionPanel(state)
+	case "log":
+		p.DrawLogPanel(state)
 	default:
 		p.DrawBox(state, false)
 	}
