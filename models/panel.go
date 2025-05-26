@@ -36,7 +36,7 @@ func (p *Panel) DrawBox(state *State, active bool) {
 	fmt.Printf("%s", tui.Reset.ANSI())
 }
 
-func (p *Panel) DrawActionPanel(state *State, actions []Action) {
+func (p *Panel) DrawActionPanel(state *State) {
 	if state.SelectedPanel == 3 {
 		p.DrawBox(state, true)
 	} else {
@@ -44,7 +44,7 @@ func (p *Panel) DrawActionPanel(state *State, actions []Action) {
 	}
 	state.MoveCursor(p.Y+p.PaddingY, p.X+p.PaddingX)
 	// right Panel
-	for i, act := range actions {
+	for i, act := range state.Actions {
 		cursorPrefix := "  "
 		if i == state.ActionCursor && state.SelectedPanel == 3 {
 			state.ActionCursor = i
@@ -55,16 +55,16 @@ func (p *Panel) DrawActionPanel(state *State, actions []Action) {
 	}
 }
 
-func (p *Panel) DrawNavPanel(state *State, content []string) {
+func (p *Panel) DrawNavPanel(state *State) {
 	p.DrawBox(state, false)
 	state.MoveCursor(p.Y+p.PaddingY, p.X+p.PaddingX)
-	for i, msg := range content {
+	for i, msg := range state.Navigations {
 		state.MoveCursor(p.Y+p.PaddingY+i, p.X+p.PaddingX)
 		fmt.Print(msg)
 	}
 }
 
-func (p *Panel) DrawOptionPanel(state *State, options []Option) {
+func (p *Panel) DrawOptionPanel(state *State) {
 	if state.SelectedPanel == 2 {
 		p.DrawBox(state, true)
 	} else {
@@ -72,7 +72,7 @@ func (p *Panel) DrawOptionPanel(state *State, options []Option) {
 	}
 	state.MoveCursor(p.Y+p.PaddingY, p.X+p.PaddingX)
 	// right Panel
-	for i, opt := range options {
+	for i, opt := range state.Sections[state.SelectedSection].Options {
 		prefix := "[ ]"
 		if opt.Selected {
 			prefix = fmt.Sprintf("[%sx%s]", tui.Green.ANSI(), tui.Reset.ANSI())
@@ -86,7 +86,7 @@ func (p *Panel) DrawOptionPanel(state *State, options []Option) {
 	}
 }
 
-func (p *Panel) DrawSectionPanel(state *State, sections []Section) {
+func (p *Panel) DrawSectionPanel(state *State) {
 	if state.SelectedPanel == 1 {
 		p.DrawBox(state, true)
 	} else {
@@ -94,7 +94,7 @@ func (p *Panel) DrawSectionPanel(state *State, sections []Section) {
 	}
 	state.MoveCursor(p.Y+p.PaddingY, p.X+p.PaddingX)
 	// left Panels[1]
-	for i, opt := range sections {
+	for i, opt := range state.Sections {
 		cursorPrefix := "  "
 		if i == state.SectionCursor && state.SelectedPanel == 1 {
 			state.SelectedSection = i
@@ -108,13 +108,13 @@ func (p *Panel) DrawSectionPanel(state *State, sections []Section) {
 func (p *Panel) Draw(state *State) {
 	switch p.Format {
 	case "nav":
-		p.DrawNavPanel(state, state.Navigations)
+		p.DrawNavPanel(state)
 	case "option":
-		p.DrawOptionPanel(state, state.Sections[state.SelectedSection].Options)
+		p.DrawOptionPanel(state)
 	case "action":
-		p.DrawActionPanel(state, state.Actions)
+		p.DrawActionPanel(state)
 	case "section":
-		p.DrawSectionPanel(state, state.Sections)
+		p.DrawSectionPanel(state)
 	default:
 		p.DrawBox(state, false)
 	}

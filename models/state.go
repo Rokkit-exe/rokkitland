@@ -28,7 +28,7 @@ func (s State) Clear() {
 	fmt.Print("\033[2J") // Clear screen
 }
 
-func (s State) MoveCursor(row, col int) {
+func (s *State) MoveCursor(row, col int) {
 	fmt.Printf("\033[%d;%dH", row, col)
 	s.Cursor.X = col
 	s.Cursor.Y = row

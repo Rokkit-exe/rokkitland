@@ -24,7 +24,9 @@
         "id": 1,
         "title": "Sections",
         "format": "section",
-        "content": ["sections"],
+        "content": [
+          "sections"
+        ],
         "x": 1,
         "y": 10,
         "width": 30,
@@ -36,7 +38,9 @@
         "id": 2,
         "title": "Options",
         "format": "option",
-        "content": ["packages"],
+        "content": [
+          "packages"
+        ],
         "x": 32,
         "y": 10,
         "width": 60,
@@ -65,7 +69,9 @@
         "id": 4,
         "title": "Log",
         "format": "log",
-        "content": ["log"],
+        "content": [
+          "log"
+        ],
         "x": 0,
         "y": 36,
         "width": 91,
@@ -76,8 +82,8 @@
     ]
   },
   {
-    "id": 0,
-    "title": "Packages",
+    "id": 1,
+    "title": "Configurations",
     "panels": [
       {
         "id": 0,
@@ -98,7 +104,9 @@
         "id": 1,
         "title": "Sections",
         "format": "section",
-        "content": ["sections"],
+        "content": [
+          "sections"
+        ],
         "x": 0,
         "y": 11,
         "width": 30,
@@ -110,7 +118,9 @@
         "id": 2,
         "title": "Options",
         "format": "option",
-        "content": ["packages"],
+        "content": [
+          "packages"
+        ],
         "x": 31,
         "y": 11,
         "width": 60,
@@ -139,7 +149,9 @@
         "id": 4,
         "title": "Log",
         "format": "log",
-        "content": ["log"],
+        "content": [
+          "log"
+        ],
         "x": 0,
         "y": 38,
         "width": 91,

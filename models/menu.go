@@ -17,14 +17,12 @@ type Menu struct {
 func (m *Menu) DrawMenu() error {
 	for {
 		m.State.Clear()
-		m.State.MoveCursor(0, 0)
-		m.Pages[m.State.SelectedPage].DrawTab(&m.State, true)
-		// m.DrawPages()
-		// m.Pages[m.State.SelectedPage].DrawPanels(&m.State)
-
+		m.State.MoveCursor(1, 1)
+		m.DrawPages()
+		m.Pages[m.State.SelectedPage].DrawPanels(&m.State)
 		err := m.InputManager.RecordKeys()
 		if err != nil {
-			m.State.MoveCursor(90, 0)
+			m.State.MoveCursor(60, 1)
 			fmt.Println("Error:", err)
 			return err
 		}
