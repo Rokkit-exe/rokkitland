@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+	"syscall"
 	"time"
 
 	"github.com/Rokkit-exe/rokkitland/art"
 	"github.com/Rokkit-exe/rokkitland/models"
+	"golang.org/x/term"
 )
 
 func main() {
@@ -39,6 +41,7 @@ func main() {
 	}
 	fmt.Println("Pages loaded successfully.")
 	pages := fmt.Sprintf("pages found: %d", len(mainMenu.Pages))
+	pageTitle := fmt.Sprintf("page title: %s", mainMenu.Pages[0].Title)
 	panels := fmt.Sprintf("panels found: %d", len(mainMenu.Pages[0].Panels))
 	panelWidth := fmt.Sprintf("panel width: %d", mainMenu.Pages[0].Panels[0].Width)
 	panelHeight := fmt.Sprintf("panel height: %d", mainMenu.Pages[0].Panels[0].Height)
@@ -46,6 +49,7 @@ func main() {
 	sections := fmt.Sprintf("sections found: %d", len(mainMenu.State.Sections))
 
 	fmt.Println(pages)
+	fmt.Println(pageTitle)
 	fmt.Println(panels)
 	fmt.Println(panelWidth)
 	fmt.Println(panelHeight)
@@ -53,11 +57,15 @@ func main() {
 	fmt.Println(sections)
 
 	time.Sleep(5 * time.Second)
-	mainMenu.State.Clear()
 
-	err := mainMenu.DrawMenu()
+	err := mainMenu.State.SaveOldState()
 	if err != nil {
-		mainMenu.State.Clear()
+		mainMenu.Log.Add("Error saving old state: " + err.Error())
+	}
+	defer term.Restore(int(syscall.Stdin), mainMenu.State.OldState)
+	err = mainMenu.DrawMenu()
+	if err != nil {
+		mainMenu.Log.Add("Error drawing menu: " + err.Error())
 		fmt.Println("Error:", err)
 		return
 	}

@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"syscall"
+
+	"golang.org/x/term"
 )
 
 type Menu struct {
@@ -15,25 +18,27 @@ type Menu struct {
 }
 
 func (m *Menu) DrawMenu() error {
+	err := m.State.SaveOldState()
+	if err != nil {
+		m.Log.Add("Error saving old state: " + err.Error())
+	}
+	defer term.Restore(int(syscall.Stdin), m.State.OldState)
+
 	for {
 		m.State.Clear()
 		m.State.MoveCursor(0, 0)
-		m.Pages[m.State.SelectedPage].DrawTab(&m.State, true)
-		// m.DrawPages()
-		// m.Pages[m.State.SelectedPage].DrawPanels(&m.State)
-
-		err := m.InputManager.RecordKeys()
+		for _, page := range m.Pages {
+			page.DrawTab(&m.State, true)
+		}
+		m.Pages[m.State.SelectedPage].DrawPanels(&m.State)
+		err := inputManager.RecordKeys()
 		if err != nil {
-			m.State.MoveCursor(90, 0)
+			state.MoveCursor(90, 0)
 			fmt.Println("Error:", err)
 			return err
 		}
 	}
-}
-
-func (m *Menu) DrawPages() {
-	for _, page := range m.Pages {
-		page.DrawTab(&m.State, m.State.SelectedPage == page.Id)
+		
 	}
 }
 

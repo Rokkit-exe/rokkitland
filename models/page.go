@@ -8,6 +8,7 @@ import (
 )
 
 type Page struct {
+	Id     int     `json:"id"`
 	Title  string  `json:"title"`
 	Panels []Panel `json:"panels"`
 }
@@ -27,18 +28,8 @@ func (p *Page) DrawTab(state *State, active bool) {
 	state.MoveCursor(0, len(p.Title)+2)
 }
 
-func (p *Page) DrawPanels(state *State, inputManager InputManager) error {
-	for {
-		state.Clear()
-		for _, panel := range p.Panels {
-			panel.Draw(state)
-		}
-
-		err := inputManager.RecordKeys()
-		if err != nil {
-			state.MoveCursor(90, 0)
-			fmt.Println("Error:", err)
-			return err
-		}
+func (p *Page) DrawPanels(state *State) {
+	for _, panel := range p.Panels {
+		panel.Draw(state)
 	}
 }
