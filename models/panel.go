@@ -51,7 +51,7 @@ func (p *Panel) DrawActionPanel(state *State) {
 			cursorPrefix = fmt.Sprintf("%s>%s ", tui.Green.ANSI(), tui.Reset.ANSI())
 		}
 		state.MoveCursor(p.Y+p.PaddingY+i, p.X+p.PaddingX)
-		fmt.Printf("%s%s", cursorPrefix, act.Name)
+		fmt.Printf("%s%s", cursorPrefix, act.Title)
 	}
 }
 

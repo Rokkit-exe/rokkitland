@@ -1,0 +1,204 @@
+base_panels:
+  navigation: &base_nav_panel
+    id: 0
+    title: "Navigation"
+    type: "nav"
+    x: 1
+    y: 4
+    width: 91
+    height: 6
+    padding-x: 2
+    padding-y: 1
+
+  section: &base_section_panel
+    id: 1
+    title: "Sections"
+    type: "section"
+    x: 1
+    y: 10
+    width: 30
+    height: 20
+    padding-x: 2
+    padding-y: 1
+
+  option: &base_option_panel 
+    id: 2 
+    title: "Options"
+    type: "option"
+    x: 32
+    y: 10
+    width: 60
+    height: 20
+    padding-x: 2
+    padding-y: 1
+
+  action: &base_action_panel
+    id: 3
+    title: "Actions"
+    format: "action"
+    x: 1
+    y: 30
+    width: 91
+    height: 6
+    padding-x: 2
+    padding-y: 1
+
+  log: &base_log_panel
+    id: 4
+    title: "Log"
+    type: "log"
+    x: 1
+    y: 35
+    width: 100
+    height: 5
+    padding-x: 2
+    padding-y: 1
+
+navigation: &nav_content
+  - "Press ↑ ↓ to navigate between sections and options"
+  - "Press ␣ to toggle an option"
+  - "Press ↵ to select a section"
+  - "Press ⇥ to switch between panels"
+
+packages: &package_content
+  - title: Desktop Environment
+    options:
+      - name: hyprland
+      - name: hyprlock
+      - name: hyprpicker
+      - name: hyprpaper
+      - name: hypridle
+      - name: hyprshot
+      - name: swaync
+      - name: waybar
+      - name: wlogout
+      - name: wofi
+      - name: firefox
+      - name: thunar
+      - name: kitty
+      - name: zsh
+      - name: gwenview
+
+  - title: Styling
+    options:
+      - name: adw-gtk-theme
+      - name: papirus-icon-theme
+      - name: catppuccin-gtk-theme-mocha
+      - name: catppuccin-sddm-theme-mocha
+      - name: ttf-font-awesome
+      - name: ttf-ubuntu-mono-nerd
+      - name: ttf-ubuntu-nerd
+      - name: simple-sddm-theme-2-git
+      - name: simple-sddm-theme-git
+
+  - title: System Utilities
+    options:
+      - name: wget
+      - name: curl
+      - name: neofetch
+      - name: nvtop
+      - name: htop
+      - name: radeontop
+      - name: nwg-look
+      - name: man-db
+      - name: man-pages
+      - name: pamixer
+      - name: pavucontrol
+      - name: blueman
+      - name: bluez
+      - name: bluez-utils
+
+  - title: Development
+    options:
+      - name: git
+      - name: neovim
+      - name: docker
+      - name: mariadb
+      - name: go
+      - name: rust
+      - name: nodejs
+      - name: postman-git
+      - name: beekeeper-studio-bin
+      - name: bun-bin
+
+  - title: Media
+    options:
+      - name: discord
+      - name: qbittorrent
+      - name: thunderbird
+      - name: steam
+      - name: obs-studio
+      - name: obsidian
+      - name: vlc
+      - name: etcher-bin
+
+configurations: &configuration_content
+  - title: "Cider V2"
+    options: 
+      - name: "Cider V2"
+
+  - title: "Disable on USB device"
+    options:
+      - name: "Disable devices that prevent the system from sleeping"
+
+  - title: "Internal storage"
+    options:
+      - name: "Mount storage drive at boot"
+
+  - title: "Shell"
+    options:
+      - name: "ZSH as default shell"
+      - name: "Install Oh-My-Zsh"
+      - name: "Install Powerlevel10k"
+      - name: "Install ZSH plugin: z"
+      - name: "Install ZSH plugin: zsh-syntax-highlighting"
+      - name: "Install ZSH plugin: zzsh-autosuggestions"
+      - name: "Install ZSH plugin: zsh-completions"
+
+  - title: "kitty"
+    options: 
+      - name: "Install Rokkit's kitty config"
+
+  - title: "hyprland"
+    options:
+      - name: "Install Rokkit's hyprland environment"
+
+  - title: "LazyVim"
+    options:
+      - name: "Install LazyVim"
+      - name: "Install Rokkit's LazyVim config" 
+
+actions: &action_content
+  - title: "Toggle selected options"
+    cmd: "toggle"
+
+  - title: "Install selected options"
+    cmd: "install-all"
+
+  - title: "Uninstall selected options"
+    cmd: "uninstall-all"
+
+pages:
+  - id: 0
+    title: Packages
+    panels:
+      - <<: &base_nav_panel
+        content: &nav_content
+      - <<: &base_section_panel
+        content: &package_content
+      - <<: &base_option_panel
+      - <<: &base_action_panel
+        content: &action_content
+      - <<: &base_log_panel
+
+  - id: 1
+    title: Configuration
+    panels:
+      - <<: &base_nav_panel
+        content: &nav_content
+      - <<: &base_section_panel
+        content: &configuration_content
+      - <<: &base_option_panel
+      - <<: &base_action_panel
+        content: &action_content
+      - <<: &base_log_panel
