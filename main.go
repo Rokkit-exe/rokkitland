@@ -13,58 +13,49 @@ import (
 func main() {
 	fmt.Printf(art.LOGO)
 	fmt.Println("Welcome to Rokkitland! Time to create the best Arch Linux experience.")
+
 	time.Sleep(2 * time.Second)
-	screen := models.Screen{
-		State: models.State{
-			SelectedPage:    0,
-			SelectedSection: 0,
-			SelectedPanel:   1,
-			SectionCursor:   0,
-			OptionCursor:    0,
-			ActionCursor:    0,
-			Cursor:          models.Coord{X: 0, Y: 0},
-		},
+
+	state := models.State{
+		SelectedPage:    0,
+		SelectedSection: 0,
+		SelectedPanel:   1,
+		SectionCursor:   0,
+		OptionCursor:    0,
+		ActionCursor:    0,
+		Cursor:          models.Coord{X: 1, Y: 1},
 	}
 
-	screen.LoadPages()
-	screen.State.LoadSections()
+	state.LoadPages()
+	state.LoadSections()
 
-	if screen.Pages == nil {
+	if state.Pages == nil {
 		fmt.Println("Error: No pages found.")
 		return
 	}
 
-	if screen.State.Sections == nil {
+	if state.Sections == nil {
 		fmt.Println("Error: No sections found.")
 		return
 	}
 	fmt.Println("Pages loaded successfully.")
-	pages := fmt.Sprintf("pages found: %d", len(screen.Pages))
-	pageTitle := fmt.Sprintf("page title: %s", screen.Pages[0].Title)
-	panels := fmt.Sprintf("panels found: %d", len(screen.Pages[0].Panels))
-	panelWidth := fmt.Sprintf("panel width: %d", screen.Pages[0].Panels[0].Width)
-	panelHeight := fmt.Sprintf("panel height: %d", screen.Pages[0].Panels[0].Height)
-	panelTitle := fmt.Sprintf("panel title: %s", screen.Pages[0].Panels[0].Title)
-	sections := fmt.Sprintf("sections found: %d", len(screen.State.Sections))
-
-	fmt.Println(pages)
-	fmt.Println(pageTitle)
-	fmt.Println(panels)
-	fmt.Println(panelWidth)
-	fmt.Println(panelHeight)
-	fmt.Println(panelTitle)
-	fmt.Println(sections)
 
 	time.Sleep(5 * time.Second)
 
-	err := screen.State.SaveOldState()
+	err := state.SaveOldState()
 	if err != nil {
-		screen.State.Log.Add("Error saving old state: " + err.Error())
+		state.Log.Add("Error saving old state: " + err.Error())
 	}
-	defer term.Restore(int(syscall.Stdin), screen.State.OldState)
+	defer term.Restore(int(syscall.Stdin), state.OldState)
+
+	screen := models.Screen{
+		InputManager: models.InputManager{},
+		State:        &state,
+	}
+
 	err = screen.Draw()
 	if err != nil {
-		screen.State.Log.Add("Error drawing menu: " + err.Error())
+		state.Log.Add("Error drawing menu: " + err.Error())
 		fmt.Println("Error:", err)
 		return
 	}

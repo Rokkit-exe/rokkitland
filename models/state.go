@@ -11,6 +11,7 @@ import (
 
 type State struct {
 	Log             Log
+	Pages           []Page
 	Sections        []Section
 	Actions         []Action
 	Navigations     []string
@@ -54,6 +55,54 @@ func (s *State) LoadSections() {
 	s.Sections = sections
 }
 
+func (s *State) SaveSections(file string) {
+	fmt.Println("Saving sections to", file)
+
+	// Create or overwrite the file
+	configFile, err := os.Create(file)
+	if err != nil {
+		fmt.Printf("Error creating file '%s': %v\n", file, err)
+		return
+	}
+	defer configFile.Close()
+
+	// Encode to JSON
+	jsonData, err := json.MarshalIndent(s.Sections, "", "  ")
+	if err != nil {
+		fmt.Println("Error marshaling sections to JSON:", err)
+		return
+	}
+
+	// Write JSON to file
+	n, err := configFile.Write(jsonData)
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
+		return
+	}
+
+	fmt.Printf("Wrote %d bytes to %s\n", n, file)
+}
+
+func (s *State) LoadPages() {
+	// Load the config file and parse it into the Packages variable
+	// This is a placeholder function, you need to implement the actual loading logic
+	fmt.Println("Loading config...")
+	configFile, err := os.Open("config/pages.json")
+	if err != nil {
+		fmt.Println("Error opening config file:", err)
+		return
+	}
+	defer configFile.Close()
+	var pages []Page
+	decoder := json.NewDecoder(configFile)
+	err = decoder.Decode(&pages)
+	if err != nil {
+		fmt.Println("Error decoding config file:", err)
+		return
+	}
+	s.Pages = pages
+}
+
 func (s *State) SaveOldState() error {
 	oldstate, err := term.MakeRaw(int(syscall.Stdin))
 	if err != nil {
@@ -79,8 +128,11 @@ func (s *State) SelectSection() {
 	}
 }
 
-func (s *State) SelectPage(index int) {
-	s.SelectedPage = index - 1
+func (s *State) SelectPage(index byte) {
+	pageIndex := int(index-'0') - 1
+	if pageIndex < len(s.Pages) && pageIndex >= 0 {
+		s.SelectedPage = pageIndex
+	}
 }
 
 func (s *State) MoveCursorUp() {

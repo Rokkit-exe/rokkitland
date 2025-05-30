@@ -8,8 +8,7 @@ import (
 	"golang.org/x/term"
 )
 
-type InputManager struct {
-}
+type InputManager struct{}
 
 func (i *InputManager) RecordKeys(state *State) error {
 	buf := make([]byte, 3)
@@ -18,6 +17,7 @@ func (i *InputManager) RecordKeys(state *State) error {
 	if buf[0] == tui.Escape1 && buf[1] == tui.Escape2 { // Arrow keys
 		switch buf[2] {
 		case tui.Up: // Up
+			state.Log.Add("Up")
 			state.MoveCursorUp()
 		case tui.Down: // Down
 			state.MoveCursorDown()
@@ -37,15 +37,20 @@ func (i *InputManager) RecordKeys(state *State) error {
 	case tui.Tab:
 		state.ToggleSelectedPanel()
 	case tui.One:
-		state.SelectPage(int(tui.One))
+		state.Log.Add("One")
+		state.SelectPage(tui.One)
 	case tui.Two:
-		state.SelectPage(int(tui.Two))
+		state.SelectPage(tui.Two)
+		state.Log.Add("Two")
 	case tui.Three:
-		state.SelectPage(int(tui.Three))
+		state.SelectPage(tui.Three)
+		state.Log.Add("Three")
 	case tui.Four:
-		state.SelectPage(int(tui.Four))
+		state.SelectPage(tui.Four)
+		state.Log.Add("Four")
 	case tui.Five:
-		state.SelectPage(int(tui.Five))
+		state.SelectPage(tui.Five)
+		state.Log.Add("Five")
 	default:
 	}
 

@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/Rokkit-exe/rokkitland/tui"
+	"github.com/Rokkit-exe/rokkitland/utils"
 )
 
 type Panel struct {
@@ -89,6 +90,17 @@ func (p *Panel) DrawOptionPanel(state *State) {
 	}
 }
 
+func (p *Panel) DrawDescriptionPanel(state *State) {
+	p.DrawBox(state, false)
+	// right Panel
+	description := state.Sections[state.SelectedSection].Options[state.OptionCursor].Description
+	lines := utils.WrapWords(description, p.Width-p.PaddingX*2)
+	for i, line := range lines {
+		state.MoveCursor(p.Y+p.PaddingY+i, p.X+p.PaddingX)
+		fmt.Printf("%s", line)
+	}
+}
+
 func (p *Panel) DrawSectionPanel(state *State) {
 	if state.SelectedPanel == 1 {
 		p.DrawBox(state, true)
@@ -133,6 +145,8 @@ func (p *Panel) Draw(state *State) {
 		p.DrawNavPanel(state)
 	case "option":
 		p.DrawOptionPanel(state)
+	case "description":
+		p.DrawDescriptionPanel(state)
 	case "action":
 		p.DrawActionPanel(state)
 	case "section":

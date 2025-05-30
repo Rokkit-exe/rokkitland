@@ -2,8 +2,10 @@ package models
 
 import (
 	"fmt"
+	"html"
 	"os/exec"
-	"strings"
+
+	"github.com/Rokkit-exe/rokkitland/utils"
 )
 
 type Option struct {
@@ -16,13 +18,15 @@ func (o Option) String() string {
 	return fmt.Sprintf("%s | %s", o.Name, o.Description)
 }
 
-func (o *Option) GetDescription() {
-	cmd := exec.Command("pacman", "-Qi", o.Name, "|", "grep", "Description")
+func (o *Option) GetDescription() string {
+	cmd := exec.Command("sh", "-c", fmt.Sprintf("yay -Si %s | grep Description", o.Name))
 	output, err := cmd.Output()
+	fmt.Println("Command:", cmd.String())
 	if err != nil {
 		fmt.Println("Error:", err)
-		return
+		return "no description available"
 	}
-	description := strings.TrimPrefix(string(output), "Description     : ")
-	o.Description = description
+	description := utils.TrimUntil(string(output), ':')
+	description = html.UnescapeString(description)
+	return description
 }

@@ -8,6 +8,24 @@ import (
 	"github.com/Rokkit-exe/rokkitland/models"
 )
 
+var funcmap = map[string]func([]string, models.State){
+	"install-packages":   InstallPackages,
+	"uninstall_packages": UninstallPackages,
+	"exec_scripts":       ExecScripts,
+}
+
+func Exec(action *models.Action, input []string, state models.State) error {
+	var err error
+
+	if f, ok := funcmap[action.Cmd]; ok {
+		f(input, state)
+	} else {
+		err = fmt.Errorf("Error: Unknown command: %s", action.Cmd)
+		state.Log.Add(err.Error())
+	}
+	return err
+}
+
 func InstallPackage(packageName string) error {
 	command := exec.Command("yay", "-S", "--noconfirm", "--needed", packageName)
 	command.Stdout = os.Stdout
@@ -63,7 +81,6 @@ func ExecScript(script string) error {
 	command.Stdout = os.Stdout
 	command.Stderr = os.Stderr
 	err := command.Run()
-
 	if err != nil {
 		return fmt.Errorf("failed to execute script %s: %w", script, err)
 	}
