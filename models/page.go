@@ -8,9 +8,10 @@ import (
 )
 
 type Page struct {
-	Id     int     `json:"id"`
-	Title  string  `json:"title"`
-	Panels []Panel `json:"panels"`
+	Id       int       `yaml:"id"`
+	Title    string    `yaml:"title"`
+	Panels   []Panel   `yaml:"panels"`
+	Sections []Section `yaml:"sections,omitempty"`
 }
 
 func (p *Page) DrawTab(state *State, active bool) {

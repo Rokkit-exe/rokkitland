@@ -14,7 +14,7 @@ func (s *Screen) Draw() error {
 		err := s.InputManager.RecordKeys(s.State)
 		if err != nil {
 			s.State.MoveCursor(30, 1)
-			s.State.Log.Add("Error: " + err.Error())
+			s.State.Console.Add("Error: " + err.Error())
 			return err
 		}
 	}

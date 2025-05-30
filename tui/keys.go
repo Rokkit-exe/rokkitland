@@ -1,27 +1,19 @@
 package tui
 
 const (
-	Up        byte = 65
-	Down      byte = 66
-	Left      byte = 68
-	Right     byte = 67
-	Enter     byte = 13
-	Space     byte = 32
-	Esc       byte = 27
-	Tab       byte = 9
-	Backspace byte = 127
-	Home      byte = 72
-	End       byte = 70
-	PageUp    byte = 73
-	PageDown  byte = 81
-	Insert    byte = 82
-	Delete    byte = 83
-	Escape1   byte = 27
-	Escape2   byte = 91
-	Quit      byte = 'q'
-	One       byte = 49
-	Two       byte = 50
-	Three     byte = 51
-	Four      byte = 52
-	Five      byte = 53
+	Up      byte = 65
+	Down    byte = 66
+	Left    byte = 68
+	Right   byte = 67
+	Enter   byte = 13
+	Space   byte = 32
+	Esc     byte = 27
+	Tab     byte = 9
+	Escape1 byte = 27
+	Escape2 byte = 91
+	Quit    byte = 113 // 'q' for quit
+	Toggle  byte = 116 // 't' for toggle
+	Install byte = 105 // 'i' for install
+	Remove  byte = 114 // 'r' for remove
+	Help    byte = 104 // 'h' for help
 )

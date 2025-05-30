@@ -17,7 +17,6 @@ func (i *InputManager) RecordKeys(state *State) error {
 	if buf[0] == tui.Escape1 && buf[1] == tui.Escape2 { // Arrow keys
 		switch buf[2] {
 		case tui.Up: // Up
-			state.Log.Add("Up")
 			state.MoveCursorUp()
 		case tui.Down: // Down
 			state.MoveCursorDown()
@@ -35,22 +34,13 @@ func (i *InputManager) RecordKeys(state *State) error {
 	case tui.Quit:
 		i.Quit(state)
 	case tui.Tab:
-		state.ToggleSelectedPanel()
-	case tui.One:
-		state.Log.Add("One")
-		state.SelectPage(tui.One)
-	case tui.Two:
-		state.SelectPage(tui.Two)
-		state.Log.Add("Two")
-	case tui.Three:
-		state.SelectPage(tui.Three)
-		state.Log.Add("Three")
-	case tui.Four:
-		state.SelectPage(tui.Four)
-		state.Log.Add("Four")
-	case tui.Five:
-		state.SelectPage(tui.Five)
-		state.Log.Add("Five")
+		state.TogglePage()
+	case tui.Install:
+		state.InstallSelectedOptions()
+	case tui.Remove:
+		state.RemoveSelectedOptions()
+	case tui.Toggle:
+		state.ToggleAllOptions()
 	default:
 	}
 
@@ -58,8 +48,8 @@ func (i *InputManager) RecordKeys(state *State) error {
 }
 
 func (i *InputManager) Quit(state *State) {
-	state.Log.Add("--------------------------------------------------------")
-	state.Log.Add("Exiting...")
+	state.Console.Add("--------------------------------------------------------")
+	state.Console.Add("Exiting...")
 	term.Restore(int(syscall.Stdin), state.OldState)
 	os.Exit(0)
 }

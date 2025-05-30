@@ -1,0 +1,130 @@
+# This file contains a list of packages to be installed on a system.
+# # Each package has a name, a selection status, and a description.
+# it will be displayed in the installer menu as a section with options and descriptions.
+- title: Desktop Environment
+  options:
+    - name: hyprland
+      description: "a highly customizable dynamic tiling Wayland compositor"
+    - name: hyprlock
+      description: "hyprland’s GPU-accelerated screen locking utility"
+    - name: hyprpicker
+      description: "A wlroots-compatible Wayland color picker that does not suck"
+    - name: hyprpaper
+      description: "a blazing fast wayland wallpaper utility with IPC controls"
+    - name: hypridle
+      description: "hyprland’s idle daemon"
+    - name: hyprshot
+      description: "A utility to easily take screenshots in Hyprland"
+    - name: swaync
+      description: "A simple GTK based notification daemon for Sway"
+    - name: waybar
+      description: "Highly customizable Wayland bar for Sway and Wlroots based compositors"
+    - name: wlogout
+      description: "Logout menu for wayland"
+    - name: wofi
+      description: "launcher for wlroots-based wayland compositors"
+    - name: firefox
+      description: "Fast, Private & Safe Web Browser"
+    - name: thunar
+      description: "Modern, fast and easy-to-use file manager for Xfce"
+    - name: kitty
+      description: "A modern, hackable, featureful, OpenGL-based terminal emulator"
+    - name: zsh
+      description: "A very advanced and programmable command interpreter (shell) for UNIX"
+    - name: gwenview
+      description: "A fast and easy to use image viewer"
+
+- title: Styling
+  options:
+    - name: adw-gtk-theme
+      description: "Unofficial GTK 3 port of the libadwaita theme"
+    - name: papirus-icon-theme
+      description: "Papirus icon theme"
+    - name: catppuccin-gtk-theme-mocha
+      description: "Soothing pastel theme for GTK - Mocha"
+    - name: catppuccin-sddm-theme-mocha
+      description: "Soothing pastel theme for SDDM - Mocha"
+    - name: ttf-font-awesome
+      description: "Iconic font designed for Bootstrap"
+    - name: ttf-ubuntu-mono-nerd
+      description: "Patched font Ubuntu Mono from nerd fonts library"
+    - name: ttf-ubuntu-nerd
+      description: "Patched font Ubuntu from nerd fonts library"
+    - name: simple-sddm-theme-2-git
+      description: "Simple theme variant for the SDDM Login Manager using Qt6"
+    - name: simple-sddm-theme-git
+      description: "A Simple theme variant for the SDDM Login Manager"
+
+- title: System Utilities
+  options:
+    - name: wget
+      description: "Network utility to retrieve files from the web"
+    - name: curl
+      description: "command line tool and library for transferring data with URLs"
+    - name: neofetch
+      description: "A CLI system information tool written in BASH that supports displaying images."
+    - name: nvtop
+      description: "GPUs process monitoring for AMD, Intel and NVIDIA"
+    - name: htop
+      description: "Interactive process viewer"
+    - name: radeontop
+      description: "View GPU utilization for total activity percent and individual blocks"
+    - name: nwg-look
+      description: "GTK settings editor adapted to work on wlroots-based compositors"
+    - name: man-db
+      description: "A utility for reading man pages"
+    - name: man-pages
+      description: "Linux man pages"
+    - name: pamixer
+      description: "Pulseaudio command-line mixer like amixer"
+    - name: pavucontrol
+      description: "PulseAudio Volume Control"
+    - name: blueman
+      description: "GTK+ Bluetooth Manager"
+    - name: bluez
+      description: "Daemons for the bluetooth protocol stack"
+    - name: bluez-utils
+      description: "Development and debugging utilities for the bluetooth protocol stack"
+
+- title: Development
+  options:
+    - name: git
+      description: "the fast distributed version control system"
+    - name: neovim
+      description: "Fork of Vim aiming to improve user experience, plugins, and GUIs"
+    - name: docker
+      description: "Pack, ship and run any application as a lightweight container"
+    - name: mariadb
+      description: "Fast SQL database server, derived from MySQL"
+    - name: go
+      description: "Core compiler tools for the Go programming language"
+    - name: rust
+      description: "Systems programming language focused on safety, speed and concurrency"
+    - name: nodejs
+      description: "Evented I/O for V8 javascript (\"Current\" release)"
+    - name: postman-git
+      description: "no description available"
+    - name: beekeeper-studio-bin
+      description: "Modern and easy to use SQL client for MySQL, Postgres, SQLite, SQL Server, and more"
+    - name: bun-bin
+      description: "All-in-one JavaScript runtime built for speed, with bundler, transpiler, test runner, and package manager. Includes bunx, shell completions and support for baseline CPUs"
+
+- title: Media
+  options:
+    - name: discord
+      description: "All-in-one voice and text chat for gamers"
+    - name: qbittorrent
+      description: "An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent-rasterbar"
+    - name: thunderbird
+      description: "Standalone mail and news reader from mozilla.org"
+    - name: steam
+      description: "Valve's digital software delivery system"
+    - name: obs-studio
+      description: "Free, open source software for live streaming and recording"
+    - name: obsidian
+      description: "A powerful knowledge base that works on top of a local folder of plain text Markdown files"
+    - name: vlc
+      description: "Multi-platform MPEG, VCD/DVD, and DivX player"
+    - name: etcher-bin
+      description: "Flash OS images to SD cards & USB drives, safely and easily"
+

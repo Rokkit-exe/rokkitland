@@ -9,13 +9,10 @@ import (
 )
 
 type Option struct {
-	Name        string `json:"name"`
-	Selected    bool   `json:"selected"`
-	Description string `json:"description"`
-}
-
-func (o Option) String() string {
-	return fmt.Sprintf("%s | %s", o.Name, o.Description)
+	Name        string `yaml:"name"`
+	Selected    bool   `yaml:"selected,omitempty"`
+	Description string `yaml:"description"`
+	Scripts     string `yaml:"scripts,omitempty"`
 }
 
 func (o *Option) GetDescription() string {

@@ -1,204 +1,67 @@
-base_panels:
-  navigation: &base_nav_panel
-    id: 0
-    title: "Navigation"
-    type: "nav"
-    x: 1
-    y: 4
-    width: 91
-    height: 6
-    padding-x: 2
-    padding-y: 1
-
-  section: &base_section_panel
-    id: 1
-    title: "Sections"
-    type: "section"
-    x: 1
-    y: 10
-    width: 30
-    height: 20
-    padding-x: 2
-    padding-y: 1
-
-  option: &base_option_panel 
-    id: 2 
-    title: "Options"
-    type: "option"
-    x: 32
-    y: 10
-    width: 60
-    height: 20
-    padding-x: 2
-    padding-y: 1
-
-  action: &base_action_panel
-    id: 3
-    title: "Actions"
-    format: "action"
-    x: 1
-    y: 30
-    width: 91
-    height: 6
-    padding-x: 2
-    padding-y: 1
-
-  log: &base_log_panel
-    id: 4
-    title: "Log"
-    type: "log"
-    x: 1
-    y: 35
-    width: 100
-    height: 5
-    padding-x: 2
-    padding-y: 1
-
-navigation: &nav_content
-  - "Press ↑ ↓ to navigate between sections and options"
-  - "Press ␣ to toggle an option"
-  - "Press ↵ to select a section"
-  - "Press ⇥ to switch between panels"
-
-packages: &package_content
-  - title: Desktop Environment
-    options:
-      - name: hyprland
-      - name: hyprlock
-      - name: hyprpicker
-      - name: hyprpaper
-      - name: hypridle
-      - name: hyprshot
-      - name: swaync
-      - name: waybar
-      - name: wlogout
-      - name: wofi
-      - name: firefox
-      - name: thunar
-      - name: kitty
-      - name: zsh
-      - name: gwenview
-
-  - title: Styling
-    options:
-      - name: adw-gtk-theme
-      - name: papirus-icon-theme
-      - name: catppuccin-gtk-theme-mocha
-      - name: catppuccin-sddm-theme-mocha
-      - name: ttf-font-awesome
-      - name: ttf-ubuntu-mono-nerd
-      - name: ttf-ubuntu-nerd
-      - name: simple-sddm-theme-2-git
-      - name: simple-sddm-theme-git
-
-  - title: System Utilities
-    options:
-      - name: wget
-      - name: curl
-      - name: neofetch
-      - name: nvtop
-      - name: htop
-      - name: radeontop
-      - name: nwg-look
-      - name: man-db
-      - name: man-pages
-      - name: pamixer
-      - name: pavucontrol
-      - name: blueman
-      - name: bluez
-      - name: bluez-utils
-
-  - title: Development
-    options:
-      - name: git
-      - name: neovim
-      - name: docker
-      - name: mariadb
-      - name: go
-      - name: rust
-      - name: nodejs
-      - name: postman-git
-      - name: beekeeper-studio-bin
-      - name: bun-bin
-
-  - title: Media
-    options:
-      - name: discord
-      - name: qbittorrent
-      - name: thunderbird
-      - name: steam
-      - name: obs-studio
-      - name: obsidian
-      - name: vlc
-      - name: etcher-bin
-
-configurations: &configuration_content
+# This file is used to configure the Rokkit installer. these will appear in the installer menu as sections>options>description
+# # The options are scripts that will be run when the user selects them.
+# # The scripts are located in the scripts directory and are named after the option.
   - title: "Cider V2"
     options: 
       - name: "Cider V2"
+        description: "An unofficial apple music client"
+        script: "cider-v2.sh"
 
   - title: "Disable on USB device"
     options:
-      - name: "Disable devices that prevent the system from sleeping"
+      - name: "Disable USB devices"
+        description: "This will disable devices that prevent the system from sleeping, such as USB devices that are not in use."
+        scripts: "disable-usb-sleep.sh"
 
   - title: "Internal storage"
     options:
-      - name: "Mount storage drive at boot"
+      - name: "Mount drive at boot"
+        description: "Mount the internal storage drive at boot. This is useful for systems with multiple drives. It will mount the drive at /mnt/storage."
+        script: "mount-storage.sh"
 
   - title: "Shell"
     options:
       - name: "ZSH as default shell"
+        description: "Set ZSH as the default shell for the user. This will change the default shell from bash to zsh."
+        scripts: "set-zsh-default.sh"
       - name: "Install Oh-My-Zsh"
+        description: "Install Oh-My-Zsh, a framework for managing ZSH configuration."
+        scripts: "install-oh-my-zsh.sh"
       - name: "Install Powerlevel10k"
-      - name: "Install ZSH plugin: z"
-      - name: "Install ZSH plugin: zsh-syntax-highlighting"
-      - name: "Install ZSH plugin: zzsh-autosuggestions"
-      - name: "Install ZSH plugin: zsh-completions"
+        description: "Install Powerlevel10k, a ZSH theme that provides a fast and customizable prompt."
+        scripts: "install-powerlevel10k.sh"
+      - name: "plugin: z"
+        description: "Install the z plugin for ZSH, which allows you to quickly navigate to directories you have visited before."
+        scripts: "install-zsh-plugin-z.sh"
+      - name: "plugin: zsh-syntax-highlighting"
+        description: "Install the zsh-syntax-highlighting plugin for ZSH, which provides syntax highlighting for commands in the terminal."
+        scripts: "install-zsh-plugin-zsh-syntax-highlighting.sh"
+      - name: "plugin: zzsh-autosuggestions"
+        description: "Install the zsh-autosuggestions plugin for ZSH, which provides command suggestions based on your history."
+        scripts: "install-zsh-plugin-zsh-autosuggestions.sh"
+      - name: "plugin: zsh-completions"
+        description: "Install the zsh-completions plugin for ZSH, which provides additional completions for ZSH."
+        scripts: "install-zsh-plugin-zsh-completions.sh"
 
   - title: "kitty"
     options: 
-      - name: "Install Rokkit's kitty config"
+      - name: "Rokkit's kitty config"
+        description: "Install Rokkit's kitty configuration, which includes custom keybindings and themes. Catppuccin Mocha is used as the theme."
+        script: "install-kitty-config.sh"
 
   - title: "hyprland"
     options:
-      - name: "Install Rokkit's hyprland environment"
+      - name: "Rokkit's hyprland environment"
+        description: "Install Rokkit's hyprland environment, which includes custom configurations for hyprland, hyprpaper, hyprshot, hyprlock, hypridle and waybar."
+        script: "install-hyprland-config.sh"
 
   - title: "LazyVim"
     options:
       - name: "Install LazyVim"
-      - name: "Install Rokkit's LazyVim config" 
+        description: "Install LazyVim, a Neovim configuration that provides a modern and feature-rich development environment."
+        script: "install-lazyvim.sh"
+      - name: "Rokkit's LazyVim config"
+        description: "Install Rokkit's LazyVim configuration, which includes custom keybindings and plugins for LazyVim."
+        script: "install-lazyvim-config.sh"
 
-actions: &action_content
-  - title: "Toggle selected options"
-    cmd: "toggle"
 
-  - title: "Install selected options"
-    cmd: "install-all"
-
-  - title: "Uninstall selected options"
-    cmd: "uninstall-all"
-
-pages:
-  - id: 0
-    title: Packages
-    panels:
-      - <<: &base_nav_panel
-        content: &nav_content
-      - <<: &base_section_panel
-        content: &package_content
-      - <<: &base_option_panel
-      - <<: &base_action_panel
-        content: &action_content
-      - <<: &base_log_panel
-
-  - id: 1
-    title: Configuration
-    panels:
-      - <<: &base_nav_panel
-        content: &nav_content
-      - <<: &base_section_panel
-        content: &configuration_content
-      - <<: &base_option_panel
-      - <<: &base_action_panel
-        content: &action_content
-      - <<: &base_log_panel

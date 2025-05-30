@@ -9,15 +9,15 @@ import (
 )
 
 type Panel struct {
-	Id       int    `json:"id"`
-	Title    string `json:"title"`
-	Format   string `json:"format"`
-	X        int    `json:"x"`
-	Y        int    `json:"y"`
-	Width    int    `json:"width"`
-	Height   int    `json:"height"`
-	PaddingX int    `json:"padding-x"`
-	PaddingY int    `json:"padding-y"`
+	Id       int    `yaml:"id"`
+	Title    string `yaml:"title"`
+	Format   string `yaml:"format"`
+	X        int    `yaml:"x"`
+	Y        int    `yaml:"y"`
+	Width    int    `yaml:"width"`
+	Height   int    `yaml:"height"`
+	PaddingX int    `yaml:"padding-x"`
+	PaddingY int    `yaml:"padding-y"`
 }
 
 func (p *Panel) DrawBox(state *State, active bool) {
@@ -38,34 +38,28 @@ func (p *Panel) DrawBox(state *State, active bool) {
 }
 
 func (p *Panel) DrawActionPanel(state *State) {
-	if state.SelectedPanel == 3 {
-		p.DrawBox(state, true)
-	} else {
-		p.DrawBox(state, false)
-	}
 	state.MoveCursor(p.Y+p.PaddingY, p.X+p.PaddingX)
-	// right Panel
-	for i, act := range state.Actions {
-		cursorPrefix := "  "
-		if i == state.ActionCursor && state.SelectedPanel == 3 {
-			state.ActionCursor = i
-			cursorPrefix = fmt.Sprintf("%s>%s ", tui.Green.ANSI(), tui.Reset.ANSI())
-		}
-		state.MoveCursor(p.Y+p.PaddingY+i, p.X+p.PaddingX)
-		fmt.Printf("%s%s", cursorPrefix, act.Title)
-	}
+	p.DrawBox(state, false)
+	state.MoveCursor(p.Y+p.PaddingY, p.X+p.PaddingX)
+	fmt.Printf("Press I to install selected options")
+	state.MoveCursor(p.Y+p.PaddingY+1, p.X+p.PaddingX)
+	fmt.Printf("Press R to remove selected options")
+	state.MoveCursor(p.Y+p.PaddingY+2, p.X+p.PaddingX)
+	fmt.Printf("Press H for help")
+	state.MoveCursor(p.Y+p.PaddingY+3, p.X+p.PaddingX)
+	fmt.Printf("Press Q to quit")
 }
 
 func (p *Panel) DrawNavPanel(state *State) {
 	p.DrawBox(state, false)
 	state.MoveCursor(p.Y+p.PaddingY, p.X+p.PaddingX)
-	fmt.Printf("Press ↑ ↓ to navigate between sections and options")
+	fmt.Printf("Press ↑ ↓ to move cursor")
 	state.MoveCursor(p.Y+p.PaddingY+1, p.X+p.PaddingX)
 	fmt.Printf("Press ␣ to toggle an option")
 	state.MoveCursor(p.Y+p.PaddingY+2, p.X+p.PaddingX)
 	fmt.Printf("Press ↵ to select a section")
 	state.MoveCursor(p.Y+p.PaddingY+3, p.X+p.PaddingX)
-	fmt.Printf("Press ⇥ to switch between panels")
+	fmt.Printf("Press ⇥ to toggle pages")
 }
 
 func (p *Panel) DrawOptionPanel(state *State) {
@@ -75,8 +69,13 @@ func (p *Panel) DrawOptionPanel(state *State) {
 		p.DrawBox(state, false)
 	}
 	state.MoveCursor(p.Y+p.PaddingY, p.X+p.PaddingX)
-	// right Panel
-	for i, opt := range state.Sections[state.SelectedSection].Options {
+
+	options := &state.Pages[state.SelectedPage].Sections[state.SelectedSection].Options
+	if len(*options) == 0 {
+		state.Console.Add("No options available in this section.")
+		return
+	}
+	for i, opt := range *options {
 		prefix := "[ ]"
 		if opt.Selected {
 			prefix = fmt.Sprintf("[%sx%s]", tui.Green.ANSI(), tui.Reset.ANSI())
@@ -92,9 +91,8 @@ func (p *Panel) DrawOptionPanel(state *State) {
 
 func (p *Panel) DrawDescriptionPanel(state *State) {
 	p.DrawBox(state, false)
-	// right Panel
-	description := state.Sections[state.SelectedSection].Options[state.OptionCursor].Description
-	lines := utils.WrapWords(description, p.Width-p.PaddingX*2)
+	option := &state.Pages[state.SelectedPage].Sections[state.SelectedSection].Options[state.OptionCursor]
+	lines := utils.WrapWords(option.Description, p.Width-p.PaddingX*2)
 	for i, line := range lines {
 		state.MoveCursor(p.Y+p.PaddingY+i, p.X+p.PaddingX)
 		fmt.Printf("%s", line)
@@ -108,8 +106,8 @@ func (p *Panel) DrawSectionPanel(state *State) {
 		p.DrawBox(state, false)
 	}
 	state.MoveCursor(p.Y+p.PaddingY, p.X+p.PaddingX)
-	// left Panels[1]
-	for i, opt := range state.Sections {
+	sections := &state.Pages[state.SelectedPage].Sections
+	for i, opt := range *sections {
 		cursorPrefix := "  "
 		if i == state.SectionCursor && state.SelectedPanel == 1 {
 			state.SelectedSection = i
@@ -124,8 +122,8 @@ func (p *Panel) DrawLogPanel(state *State) {
 	p.DrawBox(state, false)
 	state.MoveCursor(p.Y+p.PaddingY, p.X+p.PaddingX)
 
-	n := 5
-	lenLog := len(state.Log)
+	n := p.Height - 2 // Number of logs to display
+	lenLog := len(state.Console.Lines)
 
 	if lenLog == 0 {
 		return
@@ -133,9 +131,9 @@ func (p *Panel) DrawLogPanel(state *State) {
 		n = lenLog
 	}
 
-	for i, log := range state.Log.LastN(n) {
+	for i, log := range state.Console.LastN(n) {
 		fmt.Printf("%s", log)
-		state.MoveCursor(p.Y+p.PaddingY+i, p.X+p.PaddingX)
+		state.MoveCursor(p.Y+p.PaddingY+i+1, p.X+p.PaddingX)
 	}
 }
 

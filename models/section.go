@@ -1,8 +1,8 @@
 package models
 
 type Section struct {
-	Title   string   `json:"title"`
-	Options []Option `json:"packages"`
+	Title   string   `yaml:"title"`
+	Options []Option `yaml:"options"`
 }
 
 func (s *Section) UpdateDescription() {
