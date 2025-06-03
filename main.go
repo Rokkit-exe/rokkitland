@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/Rokkit-exe/rokkitland/art"
+	"github.com/Rokkit-exe/rokkitland/controller"
 	"github.com/Rokkit-exe/rokkitland/models"
 	"golang.org/x/term"
 )
@@ -20,9 +21,13 @@ func main() {
 	time.Sleep(2 * time.Second)
 
 	state := models.NewState()
-	state.LoadPages(layoutFile)
-	state.LoadSections(packagesFile, 0)
-	state.LoadSections(configFile, 1)
+	consoleController := controller.NewConsoleController(state)
+	stateController := controller.NewStateController(state, consoleController)
+	mainController := controller.NewMainController(state, stateController, consoleController)
+
+	stateController.LoadPages(layoutFile)
+	stateController.LoadSections(packagesFile, 0)
+	stateController.LoadSections(configFile, 1)
 
 	if state.Pages == nil {
 		fmt.Println("Error: No pages found.")
@@ -40,21 +45,11 @@ func main() {
 
 	time.Sleep(5 * time.Second)
 
-	err := state.SaveOldState()
+	err := stateController.SaveOldState()
 	if err != nil {
 		state.Console.Add("Error saving old state: " + err.Error())
 	}
 	defer term.Restore(int(syscall.Stdin), state.OldState)
 
-	screen := models.Screen{
-		InputManager: models.InputManager{},
-		State:        state,
-	}
-
-	err = screen.Draw()
-	if err != nil {
-		state.Console.Add("Error drawing menu: " + err.Error())
-		fmt.Println("Error:", err)
-		return
-	}
+	mainController.Start()
 }

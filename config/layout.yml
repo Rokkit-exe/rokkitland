@@ -61,7 +61,7 @@ base_panels:
     x: 1
     y: 30
     width: 122
-    height: 12
+    height: 16
     padding-x: 2
     padding-y: 1
 
