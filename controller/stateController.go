@@ -174,16 +174,27 @@ func (s *StateController) InstallSelectedOptions() {
 		s.State.Console.Add("No sections available.")
 		return
 	}
-
-	var cmd []string
-
-	if s.State.SelectedPage == 0 {
-		s.State.Console.Add("Installing ...")
-		// cmd = []string{"yay", "-S", "--needed", "--noconfirm" option.Name}
-		cmd = []string{"echo", "Hello"}
+	if len(sections[s.State.SelectedSection].Options) == 0 {
+		s.State.Console.Add("No options available in the selected section.")
+		return
 	}
 
-	// Run command and wait for completion
-	s.ConsoleController.RunCommandWithPTY(cmd)
-	s.State.Console.Add("Done installing")
+	var cmd []string
+	for i := range sections {
+		for j := range sections[i].Options {
+			if s.State.SelectedPage == 0 && sections[i].Options[j].Selected {
+				cmd = []string{"yay", "-S", "--needed", "--noconfirm", sections[i].Options[j].Name}
+				// cmd = []string{"echo", "-n", "enter something: ", "&&", "read", "cmd", "&&", "echo", "$cmd"}
+				s.ExecCommand(cmd, sections[i].Options[j].Name)
+			}
+		}
+	}
+}
+
+func (s *StateController) ExecCommand(cmdArgs []string, optionName string) {
+	s.State.Console.Add("[info] running: " + cmdArgs[0] + " " + cmdArgs[1])
+	s.State.SetIsCommandRunning(true)
+	s.State.CreateCommandInputChan()
+	s.State.SelectedPanel = 5
+	go s.ConsoleController.RunCommandWithPTY(cmdArgs)
 }

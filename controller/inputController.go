@@ -23,23 +23,22 @@ func NewInputController(state *models.State, stateController *StateController, c
 	}
 }
 
-func (i *InputController) RecordKeys() error {
-	buf := make([]byte, 3)
-	_, err := os.Stdin.Read(buf)
+func (i *InputController) RecordInput() error {
+	buf := make([]byte, 100)
+	n, err := os.Stdin.Read(buf)
 	if err != nil {
+		i.State.Console.Add("[error] Failed to read input: " + err.Error())
 		return err
 	}
+	if i.State.IsCommandRunning {
+		i.RecordCommandInput(buf[:n])
+	} else {
+		i.RecordUiInput(buf[:n])
+	}
+	return nil
+}
 
-	// if i.State.IsCommandRunning {
-	// 	// Forward to command PTY
-	// 	for _, b := range buf {
-	// 		if b != 0 {
-	// 			i.State.CommandInputChan <- b
-	// 		}
-	// 	}
-	// 	return nil
-	// }
-
+func (i *InputController) RecordUiInput(buf []byte) {
 	// Normal TUI controls
 	if buf[0] == tui.Escape1 && buf[1] == tui.Escape2 {
 		switch buf[2] {
@@ -58,6 +57,10 @@ func (i *InputController) RecordKeys() error {
 			i.StateController.SelectSection()
 		case tui.Space:
 			i.StateController.ToggleSelectOption()
+		case tui.CtrlC:
+			i.State.Console.Add("[input] Ctrl+C pressed, exiting Command mode...")
+			i.State.SetIsCommandRunning(false)
+			i.State.SelectedPanel = 1
 		case tui.Quit:
 			i.Quit()
 		case tui.Tab:
@@ -70,8 +73,10 @@ func (i *InputController) RecordKeys() error {
 			i.StateController.ToggleAllOptions()
 		}
 	}
+}
 
-	return nil
+func (i *InputController) RecordCommandInput(buf []byte) {
+	i.State.CommandInputChan <- buf
 }
 
 func (i *InputController) Quit() {

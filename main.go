@@ -43,7 +43,7 @@ func main() {
 		fmt.Println("Sections loaded successfully.")
 	}
 
-	time.Sleep(5 * time.Second)
+	// time.Sleep(5 * time.Second)
 
 	err := stateController.SaveOldState()
 	if err != nil {

@@ -114,7 +114,11 @@ func (p *PanelView) DrawSectionPanel(panel *models.Panel) {
 }
 
 func (p *PanelView) DrawLogPanel(panel *models.Panel) {
-	p.DrawBox(panel, false)
+	if p.State.SelectedPanel == 5 {
+		p.DrawBox(panel, true)
+	} else {
+		p.DrawBox(panel, false)
+	}
 	p.State.Cursor.Move(panel.Y+panel.PaddingY, panel.X+panel.PaddingX)
 
 	n := panel.Height - 2 // Number of logs to display

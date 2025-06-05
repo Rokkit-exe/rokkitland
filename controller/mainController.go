@@ -30,11 +30,12 @@ func (m *MainController) Start() {
 
 func (m *MainController) inputLoop() {
 	for {
-		err := m.InputController.RecordKeys() // works directly with state
+		err := m.InputController.RecordInput() // works directly with state
 		if err != nil {
 			m.State.Console.Add("Input error: " + err.Error())
 			break
 		}
+		time.Sleep(time.Millisecond * 10) // Adjust as needed for input frequency
 	}
 }
 
