@@ -38,3 +38,10 @@ func (c Color) ANSI() string {
 		return ""
 	}
 }
+
+func Colorize(text string, color Color) string {
+	if color == Reset {
+		return text + Reset.ANSI()
+	}
+	return color.ANSI() + text + Reset.ANSI()
+}

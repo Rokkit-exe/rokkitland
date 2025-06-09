@@ -1,7 +1,8 @@
 package controller
 
 import (
-	"os"
+	"errors"
+	"io"
 	"os/exec"
 	"strings"
 
@@ -21,71 +22,78 @@ func NewConsoleController(state *models.State) *ConsoleController {
 }
 
 func (c *ConsoleController) RunCommandWithPTY(cmdArgs []string) {
-	// c.State.CreateCommandInputChan()
 	cmd := exec.Command("script", "-qfc", strings.Join(cmdArgs, " "), "/dev/null")
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
-		c.State.Console.Add("[error] PTY start failed: " + err.Error())
+		c.State.Console.Add("[error] PTY start failed: "+err.Error(), tui.Red)
 		return
 	}
-	defer func(ptmx *os.File) {
-		c.State.Console.Add("[info] Command Executed")
-		c.RestoreUIMode(ptmx)
-	}(ptmx)
+	c.State.Ptmx = ptmx
+	defer func() {
+		c.RestoreUIMode()
+	}()
 
-	// Read output asynchronously
-	go c.ReadFromPTY(ptmx)
+	go c.Read()
 
-	go c.WriteToPTY(ptmx)
+	go c.Write()
 
-	// Wait for the command to finish
 	err = cmd.Wait()
 	if err != nil {
-		c.State.Console.Add("[error] command finished with error: " + err.Error())
+		c.State.Console.Add("[error] command finished with error: "+err.Error(), tui.Red)
 	}
 }
 
-func (c *ConsoleController) WriteToPTY(ptmx *os.File) {
+func (c *ConsoleController) Write() {
 	if c.State.CommandInputChan == nil {
-		c.State.Console.Add("[error] CommandInputChan is nil, cannot read input")
+		c.State.Console.Add("[error] CommandInputChan is nil, cannot read input", tui.Red)
 		return
 	}
 	for chunk := range c.State.CommandInputChan {
 		for _, b := range chunk {
-			_, err := ptmx.Write([]byte{b})
+			_, err := c.State.Ptmx.Write([]byte{b})
 			if err != nil {
-				c.State.Console.Add("[error] failed to write to PTY: " + err.Error())
+				c.State.Console.Add("[error] failed to write to PTY: "+err.Error(), tui.Red)
 				return
 			}
 			if b == tui.CtrlC {
-				c.State.Console.Add("[input] Ctrl+C detected, restoring UI mode")
-				c.RestoreUIMode(ptmx)
+				c.State.Console.Add("[input] Ctrl+C detected, restoring UI mode", tui.Blue)
+				c.RestoreUIMode()
 				return
 			}
 		}
 	}
 }
 
-func (c *ConsoleController) ReadFromPTY(ptmx *os.File) {
-	c.State.Console.Add("[info] Reading from PTY...")
+func (c *ConsoleController) Read() {
 	buf := make([]byte, 1024)
 	for {
-		n, err := ptmx.Read(buf)
+		n, err := c.State.Ptmx.Read(buf)
 		if n > 0 {
-			c.State.Console.Add(string(buf[:n]))
+			c.State.Console.Add(string(buf[:n]), tui.White)
 		}
 		if err != nil {
-			c.State.Console.Add("[error] failed to read from PTY: " + err.Error())
+			if errors.Is(err, io.EOF) || strings.Contains(err.Error(), "input/output error") {
+				c.State.Console.Add("......................................................................", tui.Blue)
+			} else {
+				c.State.Console.Add("[error] failed to read from PTY: "+err.Error(), tui.Red)
+			}
 			break
 		}
 	}
 }
 
-func (c *ConsoleController) RestoreUIMode(ptmx *os.File) {
-	_ = ptmx.Close() // Close the PTY file descriptor
+func (c *ConsoleController) SetCommandMode() {
+	c.State.SetIsCommandRunning(true)
+	c.State.SelectedPanel = 5
+	c.State.CommandInputChan = make(chan []byte)
+}
+
+func (c *ConsoleController) RestoreUIMode() {
+	_ = c.State.Ptmx.Close() // Close the PTY file descriptor
+	c.State.Ptmx = nil       // Clear the PTY file descriptor
 	c.State.SetIsCommandRunning(false)
 	c.State.SelectedPanel = 1
 	close(c.State.CommandInputChan) // Close the command input channel
 	c.State.CommandInputChan = nil  // Clear the command input channel
-	c.State.Console.Add("[info] Restored UI mode")
+	c.State.Console.Add("[info] UI Mode Restored", tui.Blue)
 }

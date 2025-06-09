@@ -1,7 +1,11 @@
 package models
 
 import (
+	"slices"
 	"sync"
+
+	"github.com/Rokkit-exe/rokkitland/tui"
+	"github.com/Rokkit-exe/rokkitland/utils"
 )
 
 type Console struct {
@@ -16,19 +20,22 @@ func NewConsole() *Console {
 	}
 }
 
-func (c *Console) Add(line string) {
+func (c *Console) Add(line string, color tui.Color) {
 	c.Mu.Lock()
 	defer c.Mu.Unlock()
-	c.Lines = append(c.Lines, line)
 	if len(c.Lines) > 200 {
 		c.Lines = c.Lines[len(c.Lines)-200:]
+	}
+	lines := utils.WrapWords(line, 115)
+	for _, l := range lines {
+		c.Lines = append(c.Lines, tui.Colorize(l, color))
 	}
 }
 
 func (c *Console) GetLines() []string {
 	c.Mu.Lock()
 	defer c.Mu.Unlock()
-	return append([]string(nil), c.Lines...)
+	return slices.Clone(c.Lines)
 }
 
 func (c *Console) LastN(n int) []string {

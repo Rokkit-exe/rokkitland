@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/Rokkit-exe/rokkitland/models"
+	"github.com/Rokkit-exe/rokkitland/tui"
 	"golang.org/x/term"
 	"gopkg.in/yaml.v3"
 )
@@ -171,30 +172,33 @@ func (s *StateController) InstallSelectedOptions() {
 	sections := s.State.Pages[s.State.SelectedPage].Sections
 
 	if len(sections) == 0 {
-		s.State.Console.Add("No sections available.")
+		s.State.Console.Add("[warning] No sections available.", tui.Yellow)
 		return
 	}
 	if len(sections[s.State.SelectedSection].Options) == 0 {
-		s.State.Console.Add("No options available in the selected section.")
+		s.State.Console.Add("[warning] No options available in the selected section.", tui.Yellow)
 		return
 	}
 
-	var cmd []string
+	cmd := []string{"yay", "-S", "--needed", "--noconfirm"}
+	packages := []string{}
 	for i := range sections {
 		for j := range sections[i].Options {
 			if s.State.SelectedPage == 0 && sections[i].Options[j].Selected {
-				cmd = []string{"yay", "-S", "--needed", "--noconfirm", sections[i].Options[j].Name}
-				// cmd = []string{"echo", "-n", "enter something: ", "&&", "read", "cmd", "&&", "echo", "$cmd"}
-				s.ExecCommand(cmd, sections[i].Options[j].Name)
+				packages = append(packages, sections[i].Options[j].Name)
 			}
 		}
 	}
+	cmd = append(cmd, packages...)
+	go s.ExecCommand(cmd, packages)
 }
 
-func (s *StateController) ExecCommand(cmdArgs []string, optionName string) {
-	s.State.Console.Add("[info] running: " + cmdArgs[0] + " " + cmdArgs[1])
+func (s *StateController) ExecCommand(cmd []string, packages []string) {
 	s.State.SetIsCommandRunning(true)
 	s.State.CreateCommandInputChan()
 	s.State.SelectedPanel = 5
-	go s.ConsoleController.RunCommandWithPTY(cmdArgs)
+	s.State.Console.Add(".........................................................................", tui.Green)
+	s.State.Console.Add("[info] Installing packages: "+fmt.Sprintf("%v", packages), tui.Green)
+	cmd = append(cmd, packages...)
+	s.ConsoleController.RunCommandWithPTY(cmd)
 }

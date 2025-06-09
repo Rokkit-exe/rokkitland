@@ -8,6 +8,7 @@ import (
 	"github.com/Rokkit-exe/rokkitland/art"
 	"github.com/Rokkit-exe/rokkitland/controller"
 	"github.com/Rokkit-exe/rokkitland/models"
+	"github.com/Rokkit-exe/rokkitland/tui"
 	"golang.org/x/term"
 )
 
@@ -47,7 +48,7 @@ func main() {
 
 	err := stateController.SaveOldState()
 	if err != nil {
-		state.Console.Add("Error saving old state: " + err.Error())
+		state.Console.Add("Error saving old state: "+err.Error(), tui.Red)
 	}
 	defer term.Restore(int(syscall.Stdin), state.OldState)
 

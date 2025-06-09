@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/Rokkit-exe/rokkitland/models"
+	"github.com/Rokkit-exe/rokkitland/tui"
 	"github.com/Rokkit-exe/rokkitland/view"
 )
 
@@ -32,7 +33,7 @@ func (m *MainController) inputLoop() {
 	for {
 		err := m.InputController.RecordInput() // works directly with state
 		if err != nil {
-			m.State.Console.Add("Input error: " + err.Error())
+			m.State.Console.Add("Input error: "+err.Error(), tui.Red)
 			break
 		}
 		time.Sleep(time.Millisecond * 10) // Adjust as needed for input frequency

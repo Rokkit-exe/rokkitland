@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"os"
 	"sync"
 
 	"golang.org/x/term"
@@ -19,7 +20,7 @@ type State struct {
 	Cursor           Cursor
 	IsCommandRunning bool
 	CommandInputChan chan []byte
-	CommandQueue     chan QueuedCommand
+	Ptmx             *os.File
 	OldState         *term.State
 	Mu               sync.Mutex
 }

@@ -27,7 +27,7 @@ func (i *InputController) RecordInput() error {
 	buf := make([]byte, 100)
 	n, err := os.Stdin.Read(buf)
 	if err != nil {
-		i.State.Console.Add("[error] Failed to read input: " + err.Error())
+		i.State.Console.Add("[error] Failed to read input: "+err.Error(), tui.Red)
 		return err
 	}
 	if i.State.IsCommandRunning {
@@ -58,9 +58,7 @@ func (i *InputController) RecordUiInput(buf []byte) {
 		case tui.Space:
 			i.StateController.ToggleSelectOption()
 		case tui.CtrlC:
-			i.State.Console.Add("[input] Ctrl+C pressed, exiting Command mode...")
-			i.State.SetIsCommandRunning(false)
-			i.State.SelectedPanel = 1
+			i.ConsoleController.RestoreUIMode()
 		case tui.Quit:
 			i.Quit()
 		case tui.Tab:
@@ -80,8 +78,8 @@ func (i *InputController) RecordCommandInput(buf []byte) {
 }
 
 func (i *InputController) Quit() {
-	i.State.Console.Add("--------------------------------------------------------")
-	i.State.Console.Add("Exiting...")
+	i.State.Console.Add("--------------------------------------------------------", tui.Green)
+	i.State.Console.Add("Exiting...", tui.Green)
 	term.Restore(int(syscall.Stdin), i.State.OldState)
 	os.Exit(0)
 }
