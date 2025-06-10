@@ -12,7 +12,7 @@ type Option struct {
 	Name        string `yaml:"name"`
 	Selected    bool   `yaml:"selected,omitempty"`
 	Description string `yaml:"description"`
-	Scripts     string `yaml:"scripts,omitempty"`
+	Script      string `yaml:"script,omitempty"`
 }
 
 func (o *Option) GetDescription() string {

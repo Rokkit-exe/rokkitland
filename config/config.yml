@@ -5,63 +5,30 @@
     options: 
       - name: "Cider V2"
         description: "An unofficial apple music client"
-        script: "cider-v2.sh"
+        script: "install_cider.sh"
 
   - title: "Disable on USB device"
     options:
       - name: "Disable USB devices"
         description: "This will disable devices that prevent the system from sleeping, such as USB devices that are not in use."
-        scripts: "disable-usb-sleep.sh"
+        script: "disable_usb.sh"
 
   - title: "Internal storage"
     options:
       - name: "Mount drive at boot"
         description: "Mount the internal storage drive at boot. This is useful for systems with multiple drives. It will mount the drive at /mnt/storage."
-        script: "mount-storage.sh"
+        script: "mounting_drive.sh"
 
   - title: "Shell"
     options:
-      - name: "ZSH as default shell"
-        description: "Set ZSH as the default shell for the user. This will change the default shell from bash to zsh."
-        scripts: "set-zsh-default.sh"
-      - name: "Install Oh-My-Zsh"
-        description: "Install Oh-My-Zsh, a framework for managing ZSH configuration."
-        scripts: "install-oh-my-zsh.sh"
-      - name: "Install Powerlevel10k"
-        description: "Install Powerlevel10k, a ZSH theme that provides a fast and customizable prompt."
-        scripts: "install-powerlevel10k.sh"
-      - name: "plugin: z"
-        description: "Install the z plugin for ZSH, which allows you to quickly navigate to directories you have visited before."
-        scripts: "install-zsh-plugin-z.sh"
-      - name: "plugin: zsh-syntax-highlighting"
-        description: "Install the zsh-syntax-highlighting plugin for ZSH, which provides syntax highlighting for commands in the terminal."
-        scripts: "install-zsh-plugin-zsh-syntax-highlighting.sh"
-      - name: "plugin: zzsh-autosuggestions"
-        description: "Install the zsh-autosuggestions plugin for ZSH, which provides command suggestions based on your history."
-        scripts: "install-zsh-plugin-zsh-autosuggestions.sh"
-      - name: "plugin: zsh-completions"
-        description: "Install the zsh-completions plugin for ZSH, which provides additional completions for ZSH."
-        scripts: "install-zsh-plugin-zsh-completions.sh"
-
-  - title: "kitty"
-    options: 
-      - name: "Rokkit's kitty config"
-        description: "Install Rokkit's kitty configuration, which includes custom keybindings and themes. Catppuccin Mocha is used as the theme."
-        script: "install-kitty-config.sh"
-
-  - title: "hyprland"
-    options:
-      - name: "Rokkit's hyprland environment"
-        description: "Install Rokkit's hyprland environment, which includes custom configurations for hyprland, hyprpaper, hyprshot, hyprlock, hypridle and waybar."
-        script: "install-hyprland-config.sh"
+      - name: "Rokkit"
+        description: "- Set ZSH as the default shell for the user. - Install oh-my-zsh with plugins: zsh-autosuggestions, zsh-syntax-highlighting, zsh-completions, z. - Install the Catppuccin Mocha theme for ZSH. - Install powerlevel10k theme for ZSH. - Set up custom keybindings and aliases for ZSH."
+        script: "setting_up_zsh.sh"
 
   - title: "LazyVim"
     options:
       - name: "Install LazyVim"
         description: "Install LazyVim, a Neovim configuration that provides a modern and feature-rich development environment."
-        script: "install-lazyvim.sh"
-      - name: "Rokkit's LazyVim config"
-        description: "Install Rokkit's LazyVim configuration, which includes custom keybindings and plugins for LazyVim."
-        script: "install-lazyvim-config.sh"
+        script: "install_lazyvim.sh"
 
 

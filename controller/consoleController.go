@@ -22,7 +22,7 @@ func NewConsoleController(state *models.State) *ConsoleController {
 }
 
 func (c *ConsoleController) RunCommandWithPTY(cmdArgs []string) {
-	cmd := exec.Command("script", "-qfc", strings.Join(cmdArgs, " "), "/dev/null")
+	cmd := exec.Command(cmdArgs[0], cmdArgs[1:]...)
 	ptmx, err := pty.Start(cmd)
 	if err != nil {
 		c.State.Console.Add("[error] PTY start failed: "+err.Error(), tui.Red)

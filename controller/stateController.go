@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/Rokkit-exe/rokkitland/models"
 	"github.com/Rokkit-exe/rokkitland/tui"
@@ -169,36 +170,73 @@ func (s *StateController) RemoveSelectedOptions() {
 }
 
 func (s *StateController) InstallSelectedOptions() {
+	cmd, err := s.GetCommnand()
+	if err != nil {
+		s.State.Console.Add("[error] Failed to get command: "+err.Error(), tui.Red)
+		return
+	}
+	options, err := s.GetSelectedOptions()
+	if err != nil {
+		s.State.Console.Add("[error] Failed to get selected options: "+err.Error(), tui.Red)
+		return
+	}
+
+	go s.ExecCommand(cmd, options)
+}
+
+func (s *StateController) GetCommnand() ([]string, error) {
+	switch s.State.SelectedPage {
+	case 0:
+		return []string{"yay", "-S", "--needed", "--noconfirm"}, nil
+	case 1:
+		return []string{}, nil
+	default:
+		return nil, fmt.Errorf("invalid page selected for installation")
+	}
+}
+
+func (s *StateController) GetSelectedOptions() ([]string, error) {
 	sections := s.State.Pages[s.State.SelectedPage].Sections
+	var selectedOptions []string
 
 	if len(sections) == 0 {
-		s.State.Console.Add("[warning] No sections available.", tui.Yellow)
-		return
-	}
-	if len(sections[s.State.SelectedSection].Options) == 0 {
-		s.State.Console.Add("[warning] No options available in the selected section.", tui.Yellow)
-		return
+		return nil, fmt.Errorf("no sections available")
 	}
 
-	cmd := []string{"yay", "-S", "--needed", "--noconfirm"}
-	packages := []string{}
 	for i := range sections {
 		for j := range sections[i].Options {
-			if s.State.SelectedPage == 0 && sections[i].Options[j].Selected {
-				packages = append(packages, sections[i].Options[j].Name)
+			if sections[i].Options[j].Selected {
+				switch s.State.SelectedPage {
+				case 0:
+					selectedOptions = append(selectedOptions, sections[i].Options[j].Name)
+				case 1:
+					e, err := filepath.Abs("./scripts/" + sections[i].Options[j].Script)
+					if err != nil {
+						s.State.Console.Add("[error] Failed to get executable path: "+err.Error(), tui.Red)
+						return nil, err
+					}
+					selectedOptions = append(selectedOptions, e)
+					selectedOptions = append(selectedOptions, ";")
+				default:
+					return nil, fmt.Errorf("invalid page selected for getting options")
+				}
 			}
 		}
 	}
-	cmd = append(cmd, packages...)
-	go s.ExecCommand(cmd, packages)
+
+	if len(selectedOptions) == 0 {
+		return nil, fmt.Errorf("no options selected")
+	}
+
+	return selectedOptions, nil
 }
 
-func (s *StateController) ExecCommand(cmd []string, packages []string) {
+func (s *StateController) ExecCommand(cmd []string, options []string) {
 	s.State.SetIsCommandRunning(true)
 	s.State.CreateCommandInputChan()
 	s.State.SelectedPanel = 5
 	s.State.Console.Add(".........................................................................", tui.Green)
-	s.State.Console.Add("[info] Installing packages: "+fmt.Sprintf("%v", packages), tui.Green)
-	cmd = append(cmd, packages...)
+	s.State.Console.Add("[info] Installing packages: "+fmt.Sprintf("%v", options), tui.Green)
+	cmd = append(cmd, options...)
 	s.ConsoleController.RunCommandWithPTY(cmd)
 }
